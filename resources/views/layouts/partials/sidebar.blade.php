@@ -1,4 +1,4 @@
-<div class="sidebar-col col-lg-3 col-xl-2 p-0 border-end bg-body">
+<div class="sidebar-col col-lg-3 col-xl-2 p-0 border-end bg-body min-vh-100">
     <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">
@@ -14,6 +14,15 @@
             <ul class="nav nav-pills flex-column gap-1 mb-4">
                 <x-sidebar-link route="dashboard" ikon="bi-speedometer2">Dashboard</x-sidebar-link>
             </ul>
+             @if (Auth::user()->role ==="admin")
+                <small class="text-uppercase text-body-secondary fw-semibold mt-4 mb-1">
+                    Administrasi
+                </small>
+                <ul class="nav nav-pills flex-column gap-1">
+                    <x-sidebar-link route="pengguna.index" pola="pengguna.*"
+                         ikon="bi-shield-lock-fill">Pengguna</x-sidebar-link>
+                </ul>
+            @endif
             <small class="text-uppercase text-body-secondary fw-semibold mb-2">
                 Data Akademik
             </small>

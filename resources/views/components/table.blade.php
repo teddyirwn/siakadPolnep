@@ -1,4 +1,4 @@
-@props(['kolom'=>[],'baris'=>[]])
+@props(['kolom' => [], 'baris' => []])
 
 <div class="table-responsive">
     <table class="table table-striped table-hover align-middle mb-0">
@@ -6,40 +6,42 @@
             <tr>
                 <th scope="col" style="width: 50px">#</th>
                 @foreach ($kolom as $judul)
-                    <th scope="col">{{$judul}}</th>
+                    <th scope="col">{{ $judul }}</th>
                 @endforeach
+                <th scope="col">Aksi</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($baris as $item)
                 <tr>
-                    <td>{{$loop->iteration}}</td>
+                    <td>{{ $loop->iteration }}</td>
                     @foreach ($kolom as $kunci => $judul)
                         <td>
                             @if ($kunci === 'status')
                                 @php
                                     $warna = match ($item[$kunci]) {
-                                        'Aktif','Disetujui' => 'success',
-                                        'Menunggu','Cuti' => 'warning',
-                                        'Ditolak' =>'danger',
-                                        default=>'secondary'
-                                    }
+                                        'Aktif', 'Disetujui' => 'success',
+                                        'Menunggu', 'Cuti' => 'warning',
+                                        'Ditolak' => 'danger',
+                                        default => 'secondary',
+                                    };
                                 @endphp
-                                <span class="badge text-bg-{{$warna}}">
-                                    {{$item[$kunci]}}
+                                <span class="badge text-bg-{{ $warna }}">
+                                    {{ $item[$kunci] }}
                                 </span>
+                            @elseif ($kunci === 'nim')
+                                <a href="{{ route('mahasiswa.show', $item[$kunci]) }}">{{ $item[$kunci] }}</a>
                             @else
-                            {{$item[$kunci]}}
+                                {{ $item[$kunci] }}
                             @endif
                         </td>
                     @endforeach
+
                 </tr>
             @empty
                 <tr>
-                    <td colspan="{{count($kolom) +1}}"
-                    class="text-center text-body-secondary py-4"
-                    >Belum ada data
-                </td>
+                    <td colspan="{{ count($kolom) + 1 }}" class="text-center text-body-secondary py-4">Belum ada data
+                    </td>
                 </tr>
             @endforelse
         </tbody>

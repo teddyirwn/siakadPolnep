@@ -14,6 +14,8 @@ class DashboardController extends Controller
             ['judul' => 'Dosen', 'jumlah' => 68,'ikon' =>'bi-person-badge-fill','warna' => 'success'],
             ['judul' => 'Mata Kuliah', 'jumlah' => 94,'ikon' =>'bi-book-fill','warna' => 'warning'],
             ['judul' => 'KRS Aktif', 'jumlah' => 842,'ikon' =>'bi-journal-check','warna' => 'info'],
+            ['judul' => 'Rata-rata SKS', 'jumlah' => 20, 'ikon' => 'bi-calculator-fill', 'warna' => 'danger'],
+
             
         ];
 

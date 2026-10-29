@@ -24,4 +24,19 @@ class MahasiswaController extends Controller
 
 
     }
+
+    public function show($nim): View{
+         $mahasiswa = collect([
+            ['nim' => '2401001', 'nama' => 'Budi Santoso', 'angkatan' => 2024, 'email' => 'budi@example.com', 'status' => 'Aktif'],
+            ['nim' => '2401002', 'nama' => 'Siti Aminah', 'angkatan' => 2024, 'email' => 'siti@example.com', 'status' => 'Aktif'],
+            ['nim' => '2401003', 'nama' => 'Ahmad Fauzi', 'angkatan' => 2024, 'email' => 'ahmad@example.com', 'status' => 'Aktif'],
+            ['nim' => '2401004', 'nama' => 'Dewi Lestari', 'angkatan' => 2024, 'email' => 'dewi@example.com', 'status' => 'Drop Out'],
+        ])->firstWhere('nim', $nim);
+
+        if (!$mahasiswa) {
+            abort(404);
+        }
+
+        return view('mahasiswa.show', compact('mahasiswa'));
+    }
 }
