@@ -28,6 +28,7 @@ class DosenFactory extends Factory
         'email'=> fake()->unique()->safeEmail(),
         'telpon'=> fake()->numerify('08##########'),
         'alamat'=> fake()->address(),
+        'jabatan_fungsional' => fake()->randomElement(['Asisten Ahli','Lektor','Lektor Kepala','Guru Besar']),
        ];
     }
 }

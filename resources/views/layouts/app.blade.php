@@ -13,27 +13,54 @@
 </head>
 
 <body class="bg-body-tertiary">
-    @include('layouts.partials.navbar')
-    <div class="container-fluid">
-        <div class="row">
+   @include('layouts.partials.navbar')
+    <div class="container-fluid flex-grow-1 d-flex flex-column">
+        <div class="row flex-grow-1">
             @include('layouts.partials.sidebar')
-            <main class="col-lg-9 col-xl-10 px-3 px-md-4 py-4">
-                @include('layouts.partials.flash')
+            <main class="col-lg-9 col-xl-10 px-3 px-md-4 py-4 d-flex flex-column">
+                {{-- @include('layouts.partials.flash') --}}
 
-                @yield('content')
-                <footer class="text-center text-body-secondary small mt-5">
+                <div class="flex-grow-1">
+                    @yield('content')
+                </div>
+
+                <footer class="text-center text-body-secondary small mt-auto pt-4">
                     &copy; {{ date('Y') }} {{ config('app.name') }}
-                    - D3 Tenik Informatika - Politeknik Negeri Pontianak
+                    - D3 Teknik Informatika - Politeknik Negeri Pontianak
                 </footer>
             </main>
         </div>
     </div>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
+
     @push('scripts')
     <script>
         const htmlElement = document.documentElement;
         const themeToggleBtn = document.getElementById('darkmode');
         const themeIcon = document.getElementById('ikonTema');
+
+        const successMessage = @json(session('success'));
+        const errorMessage = @json(session('error'));
+
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: successMessage,
+                timer: 3000,
+                showConfirmButton: true
+            });
+        }
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: errorMessage,
+                timer: 3000,
+                showConfirmButton: true
+            });
+        }
 
         if (themeToggleBtn && themeIcon) {
             themeToggleBtn.addEventListener('click', function() {
@@ -50,7 +77,7 @@
         }
     </script>
 @endpush
-    @stack('scripts')
+@stack('scripts')
 
     
 </body>

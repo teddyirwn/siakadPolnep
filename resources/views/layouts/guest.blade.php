@@ -9,6 +9,8 @@
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('css/siakad.css') }}" rel="stylesheet">
+    @stack('styles')
+
 </head>
 <body class="bg-body-tertiary">
 
@@ -20,6 +22,32 @@
     </main>
 
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
+    @push('scripts')
+    <script>
+        const successMessage = @json(session('success'));
+        const errorMessage = @json(session('error'));
+
+        if (successMessage) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: successMessage,
+                timer: 3000,
+                showConfirmButton: true
+            });
+        }
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: errorMessage,
+                timer: 3000,
+                showConfirmButton: true
+            });
+        }
+    </script>
+    @stack('scripts') 
 
 </body>
 </html>

@@ -21,7 +21,8 @@
                     <x-table :kolom="$kolomKrs" :data="$krsTerbaru" />
                 </div>
             </div>
-    </div>
+        </div> 
+
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-body fw-semibold">Status KRS</div>
@@ -32,10 +33,8 @@
                                 <span>{{ $s['label'] }}</span>
                                 <span>{{ $s['persen'] }}%</span>
                             </div>
-                            <div class="progress" role="progressbar"aria-valuenow="{{ $s['persen'] }}" aria-valuemin="0"
-                                aria-valuemax="100">
+                            <div class="progress" role="progressbar" aria-valuenow="{{ $s['persen'] }}" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-bar bg-{{ $s['warna'] }}" style="width: {{ $s['persen'] }}%"></div>
-
                             </div>
                         </div>
                     @endforeach

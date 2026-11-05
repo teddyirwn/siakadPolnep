@@ -8,7 +8,6 @@
                 @foreach ($kolom as $judul)
                     <th scope="col">{{ $judul }}</th>
                 @endforeach
-                <th scope="col">Aksi</th>
             </tr>
         </thead>
         <tbody>
