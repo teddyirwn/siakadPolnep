@@ -18,10 +18,36 @@
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-body fw-semibold">KRS Terbaru</div>
                 <div class="card-body p-0">
-                    <x-table :kolom="$kolomKrs" :data="$krsTerbaru" />
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                @foreach ($kolomKrs as $key => $label)
+                                    <th>{{ $label }}</th>
+                                @endforeach
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($dataKrs as $item)
+                                <tr>
+                                    <td>{{ $item['nim'] }}</td>
+                                    <td>{{ $item['nama'] }}</td>
+                                    <td>{{ $item['sks'] }} SKS</td>
+                                    <td>
+                                        <span
+                                            class="badge 
+                        @if ($item['status'] == 'disetujui') bg-success 
+                        @elseif($item['status'] == 'draft') bg-warning text-dark 
+                        @else bg-danger @endif">
+                                            {{ ucfirst($item['status']) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div> 
+        </div>
 
         <div class="col-12 col-xl-4">
             <div class="card border-0 shadow-sm h-100">
@@ -33,7 +59,8 @@
                                 <span>{{ $s['label'] }}</span>
                                 <span>{{ $s['persen'] }}%</span>
                             </div>
-                            <div class="progress" role="progressbar" aria-valuenow="{{ $s['persen'] }}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress" role="progressbar" aria-valuenow="{{ $s['persen'] }}" aria-valuemin="0"
+                                aria-valuemax="100">
                                 <div class="progress-bar bg-{{ $s['warna'] }}" style="width: {{ $s['persen'] }}%"></div>
                             </div>
                         </div>

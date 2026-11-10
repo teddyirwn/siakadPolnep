@@ -29,7 +29,7 @@
 <div class="mb-3">
     <label for="alamat">Alamat</label>
     <x-form-input label="Alamat" name="alamat" rows="3" :value="$dosen->alamat" maxlength="500"
-        @class(['form-control', 'is-invalid' => $errors->has('alamat')]) >{{ old('alamat', $dosen->alamat) }} </x-form-input>
+        @class(['form-control', 'is-invalid' => $errors->has('alamat')]) >{{ old('alamat', $dosen->alamat) }}</x-form-input>
         @error('alamat')
             <div class="invalid-feedback">{{$message}}</div>
         @enderror

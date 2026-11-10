@@ -12,6 +12,7 @@
         </thead>
         <tbody>
             @forelse ($baris as $item)
+            
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     @foreach ($kolom as $kunci => $judul)

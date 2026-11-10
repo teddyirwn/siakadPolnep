@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DosenExport;
 use App\Models\Dosen;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 
 class DosenController extends Controller
@@ -73,18 +76,31 @@ class DosenController extends Controller
 
     }
 
+    public function exportExcel()
+    {
+        return Excel::download(new DosenExport, 'data_dosen.xlsx');
+    }
+
+    public function exportPdf()
+    {
+        $dosen = Dosen::all();
+        $pdf = Pdf::loadView('dosen.pdf', compact('dosen'))->setPaper('a4', 'portrait');
+        return $pdf->download('laporan-dosen.pdf');
+    }
+
     // aturan validasi bersama untuk store dan update
     private function validated(Request $request, ?Dosen $dosen = null):array
     {
         return $request->validate([
-            'nidn' => ['required','string','max:20', Rule::unique(Dosen::class, 'nidn')->ignore($dosen?->id )],
+            'nidn' => ['required','string','max:10', Rule::unique(Dosen::class, 'nidn')->ignore($dosen?->id )],
             'nama' => ['required','string','max:120'],
             'jabatan_fungsional' => ['required','string','max:50',Rule::in(['Asisten Ahli','Lektor','Lektor Kepala','Guru Besar'])],
             'email' => ['required','email','max:255', Rule::unique(Dosen::class, 'email')->ignore($dosen?->id )],
             'telpon' => ['nullable','string','max:20'],
-            'alamat' => ['nullable','string','max:255']
+            'alamat' => ['nullable','string','max:500']
         ],[
             'nidn.required' => 'NIDN wajib diisi',
+            'nidn.max' => 'NIDN maksimal 20 karakter',
             'nidn.unique' => 'NIDN sudah digunakan',
             'nama.required' => 'Nama wajib diisi',
             'jabatan_fungsional.required' => 'Jabatan fungsional wajib diisi',
@@ -92,6 +108,10 @@ class DosenController extends Controller
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Email tidak valid',
             'email.unique' => 'Email sudah digunakan',
+            'telpon.max' => 'Telpon maksimal 20 karakter',
+            'alamat.max' => 'Alamat maksimal 500 karakter'
+            
+
         ]);
     }
 }

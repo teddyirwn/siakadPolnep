@@ -25,19 +25,48 @@ Route::middleware([ 'auth', 'prevent-back' ])->group(function () {
     Route::get('/pengguna', [PenggunaController::class,'index'])->middleware('role:admin')->name('pengguna.index');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
-    Route::get('/mahasiswa/{nim}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
 
+    // route untuk dosen
     Route::get('/dosen/data', [DosenController::class, 'data'])->name('dosen.data');
-
     Route::middleware('role:admin')->group(function () {
+        Route::get('dosen/export-pdf', [DosenController::class, 'exportPdf'])->name('dosen.export-pdf');
+        route::get('dosen/export-excel', [DosenController::class, 'exportExcel'])->name('dosen.export-excel');
         Route::resource('dosen', DosenController::class)->except(['index','show']);
     });
-
     Route::resource('dosen', DosenController::class)->only(['index','show']);
 
+    // route untuk matakuliah
+    Route::get('/matakuliah/data', [MataKuliahController::class, 'data'])->name('matakuliah.data');
 
-    Route::get('/mata-kuliah', [MataKuliahController::class, 'index'])->name('matakuliah.index');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('matakuliah/export-pdf', [MataKuliahController::class, 'exportPdf'])->name('matakuliah.export-pdf');
+        Route::get('matakuliah/export-excel', [MataKuliahController::class, 'exportExcel'])->name('matakuliah.export-excel');
+        Route::resource('matakuliah',MataKuliahController::class)->except(['index','show']);
+
+    });
+    Route::resource('matakuliah', MataKuliahController::class)->only(['index','show']);
+
+    // route untuk krs
+    Route::get('/krs/data', [KrsController::class, 'data'])->name('krs.data');
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('krs',KrsController::class)->except(['index','show']);
+    });
+    Route::resource('krs', KrsController::class)->only(['index','show']);
+
+    // route untuk mahasiswa
+    
+    Route::get('/mahasiswa/data',[MahasiswaController::class,'data'])->name('mahasiswa.data');
+    Route::middleware('role:admin')->group(function () {
+        Route::get('mahasiswa/export-pdf', [MahasiswaController::class, 'exportPdf'])->name('mahasiswa.export-pdf');
+        Route::get('mahasiswa/export-excel', [MahasiswaController::class, 'exportExcel'])->name('mahasiswa.export-excel');
+        Route::resource('mahasiswa',MahasiswaController::class)->except(['index','show']);
+    });
+    Route::resource('mahasiswa',MahasiswaController::class)->only(['index','show']);
+
+
+
+    
+
     Route::get('/krs', [KrsController::class, 'index'])->name('krs.index');
 
     Route::get('/beranda', [BerandaController::class, 'index'])->name('beranda');
